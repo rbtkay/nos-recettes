@@ -9,17 +9,27 @@ import {
     Col,
     ListGroup,
     Modal,
+    Badge,
 } from "react-bootstrap";
 import { useState } from "react";
 import AutoCompleteDropdown from "./AutoCompleteDropdown";
+import AutoCompleteDropDownContainer from "../containers/AutoCompleteDropDownContainer";
 
-const RecetteForm = ({ addRecipie, ingredients }) => {
+const RecetteForm = ({
+    addRecipie,
+    ingredients,
+    chosen_ingredients,
+    removeChosenIngredient,
+    getChosenIngredients,
+    show
+}) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState({});
-    const [chosenIngredients, setChosenIngredients] = useState([]);
     const [stepCount, setStepCount] = useState(1);
-    const [show, setShow] = useState(false);
-    const [newIngredient, setNewIngredient] = useState({name: ""});
+    const [newIngredient, setNewIngredient] = useState({ name: "" });
+
+
+console.log("SHOW",show);
 
     const addStep = () => {
         setStepCount(stepCount + 1);
@@ -88,11 +98,8 @@ const RecetteForm = ({ addRecipie, ingredients }) => {
 
     const validate = async () => {
         const recipie = { title, description };
-        addRecipie(recipie);
+        console.log("chosen ingredients", getChosenIngredients());
     };
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
     const addIngredientToDatabase = async () => {
         const param = {
@@ -104,10 +111,9 @@ const RecetteForm = ({ addRecipie, ingredients }) => {
             body: JSON.stringify(newIngredient),
         };
         const response = await fetch(`/api/ingredient`, param);
-        if(response.status == 200){
+        if (response.status == 200) {
             const new_ingredient = await response.json();
             // TODO: ingredient need to be added to the list to chose from.
-            setShow(false);
         }
     };
 
@@ -129,11 +135,25 @@ const RecetteForm = ({ addRecipie, ingredients }) => {
                     <Col className="col-sm-4">
                         <h2>Ingredients</h2>
                         <ListGroup>
-                            {chosenIngredients.length > 0 ? (
-                                chosenIngredients.map((ingredient) => {
+                            {chosen_ingredients ? (
+                                chosen_ingredients.map((ingredient, index) => {
                                     return (
-                                        <ListGroup.Item key={ingredient.id}>
+                                        <ListGroup.Item key={index}>
                                             {ingredient.name}
+                                            <Badge
+                                                onClick={() =>
+                                                    removeChosenIngredient(
+                                                        ingredient.id
+                                                    )
+                                                }
+                                                style={{
+                                                    float: "right",
+                                                    cursor: "pointer",
+                                                }}
+                                                variant="dark"
+                                            >
+                                                X
+                                            </Badge>
                                         </ListGroup.Item>
                                     );
                                 })
@@ -143,12 +163,7 @@ const RecetteForm = ({ addRecipie, ingredients }) => {
                                 </span>
                             )}
                         </ListGroup>
-                        <AutoCompleteDropdown
-                            ingredients={ingredients}
-                            chooseIngredient={chooseIngredient}
-                            openModal={handleShow}
-                        />
-                        {/* <AutocompleteDropdown /> */}
+                        <AutoCompleteDropDownContainer />
                     </Col>
                     <Col className="col-sm-8">
                         <Form.Group>
@@ -194,36 +209,6 @@ const RecetteForm = ({ addRecipie, ingredients }) => {
                     </Col>
                 </Row>
             </Form>
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Add your custom ingredient</Modal.Title>
-                </Modal.Header>
-
-                <Modal.Body>
-                    <p>
-                        If an ingredient is not found in our database, you can
-                        add it from here.
-                    </p>
-                    <Form.Control
-                        type="text"
-                        placeholder="Your custom ingredient"
-                        value={newIngredient.name}
-                        onChange={(event) =>
-                            setNewIngredient({name: event.target.value})
-                        }
-                    />
-                </Modal.Body>
-
-                <Modal.Footer>
-                    <Button variant="secondary">Close</Button>
-                    <Button
-                        variant="primary"
-                        onClick={() => addIngredientToDatabase()}
-                    >
-                        Save ingredient
-                    </Button>
-                </Modal.Footer>
-            </Modal>
         </>
     );
 };

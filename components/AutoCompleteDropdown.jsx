@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Dropdown, FormControl } from "react-bootstrap";
+import { useEffect } from "react";
 // The forwardRef is important!!
 // Dropdown needs access to the DOM node in order to position the Menu
 const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
@@ -48,8 +49,12 @@ const CustomMenu = React.forwardRef(
     }
 );
 
-const CustomDropdown = ({ ingredients, chooseIngredient, openModal }) => {
-    console.log(ingredients);
+const CustomDropdown = ({ ingredients, addChosenIngredient, openModal, showModal }) => {
+
+    useEffect(()=>{
+        console.log("useEFFECTO", ingredients);
+    }, [ingredients])
+
     return (
         <Dropdown>
             <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
@@ -57,18 +62,22 @@ const CustomDropdown = ({ ingredients, chooseIngredient, openModal }) => {
             </Dropdown.Toggle>
 
             <Dropdown.Menu as={CustomMenu}>
-                {ingredients.map((ingredient, index) => {
-                    return (
-                        <Dropdown.Item
-                            onClick={() => chooseIngredient(ingredient)}
-                            key={index}
-                            eventKey={index}
-                        >
-                            {ingredient.name}
-                        </Dropdown.Item>
-                    );
-                })}
-                <Dropdown.Item onClick={() => openModal()}>Not finding your ingredient ?</Dropdown.Item>
+                {ingredients.length > 0
+                    ? ingredients.map((ingredient, index) => {
+                          return (
+                              <Dropdown.Item
+                                  onClick={() => addChosenIngredient(ingredient)}
+                                  key={index}
+                                  eventKey={index}
+                              >
+                                  {ingredient.name}
+                              </Dropdown.Item>
+                          );
+                      })
+                    : null}
+                <Dropdown.Item onClick={showModal}>
+                    Not finding your ingredient ?
+                </Dropdown.Item>
             </Dropdown.Menu>
         </Dropdown>
     );

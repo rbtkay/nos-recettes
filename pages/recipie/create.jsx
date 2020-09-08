@@ -5,28 +5,39 @@ import { Button } from "react-bootstrap";
 
 import RecetteForm from "../../components/RecetteForm";
 import NavigationBar from "../../components/NavigationBar";
+import CustomModal from "../../components/CustomModal";
 
 import { PrismaClient } from "@prisma/client";
+import RecetteFormContainer from "../../containers/RecetteFormContainer";
+import { useEffect } from "react";
+import { connect } from "react-redux";
 
-const RecettePage = ({ingredients}) => {
+const RecetteCreatePage = ({ db_ingredients, setIngredients }) => {
+    console.log("ingredients", db_ingredients);
     const [stepCount, setStepCount] = useState(1);
     const router = useRouter();
 
-    const addRecipie = async (formResult) => {
-        console.log(formResult);
-        const param = {
-            method: "POST",
-            header: {
-                Accept: "application/json",
-                "Content-TYpe": "application/json",
-            },
-            body: JSON.stringify(formResult),
-        };
-        const response = await fetch(`/api/recipie`, param);
-        if (response.status == 200) {
-            router.push("/");
-        }
-    };
+    // setIngredients(db_ingredients);
+
+    useEffect(()=>{
+        setIngredients(db_ingredients);
+    })
+
+    // const addRecipie = async (formResult) => {
+    //     console.log(formResult);
+    //     const param = {
+    //         method: "POST",
+    //         header: {
+    //             Accept: "application/json",
+    //             "Content-TYpe": "application/json",
+    //         },
+    //         body: JSON.stringify(formResult),
+    //     };
+    //     const response = await fetch(`/api/recipie`, param);
+    //     if (response.status == 200) {
+    //         router.push("/");
+    //     }
+    // };
 
     return (
         <>
@@ -35,27 +46,36 @@ const RecettePage = ({ingredients}) => {
                 <main>
                     <h1 className="title">Creez votre recette !</h1>
                     <br />
-                    <RecetteForm
+                    <RecetteFormContainer />
+                    {/* <RecetteForm
                         stepCount={stepCount}
                         addRecipie={addRecipie}
                         ingredients={ingredients}
-                    />
+                    /> */}
+                    <CustomModal/>
                 </main>
             </div>
         </>
     );
 };
 
+import { setIngredients } from "../../actions/ingredients";
+
+const mapDispatchToProps = (dispatch) => ({
+    setIngredients: (ingredients) => dispatch(setIngredients(ingredients)),
+});
+
 export async function getServerSideProps({ res }) {
     const prisma = new PrismaClient();
 
     const ingredients = await prisma.ingredient.findMany();
-    await prisma.$disconnect();    
+
+    await prisma.$disconnect();
     return {
         props: {
-            ingredients,
+            db_ingredients: ingredients,
         },
     };
 }
 
-export default RecettePage;
+export default connect(null, mapDispatchToProps)(RecetteCreatePage);
