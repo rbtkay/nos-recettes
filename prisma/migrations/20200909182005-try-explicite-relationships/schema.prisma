@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -21,7 +21,7 @@ model Recipie {
 model Ingredient {
   id Int @id @default(autoincrement())
   name String @unique
-  recipies IngredientInRecipie[] 
+  recipies IngredientInRecipie[]
 }
 
 model IngredientInRecipie {

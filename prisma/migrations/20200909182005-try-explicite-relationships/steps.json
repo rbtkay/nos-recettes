@@ -1,0 +1,184 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateModel",
+      "model": "IngredientInRecipie"
+    },
+    {
+      "tag": "CreateField",
+      "model": "IngredientInRecipie",
+      "field": "recipieId",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "IngredientInRecipie",
+      "field": "recipie",
+      "type": "Recipie",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "IngredientInRecipie",
+          "field": "recipie"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "IngredientInRecipie",
+          "field": "recipie"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[recipieId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "IngredientInRecipie",
+          "field": "recipie"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "IngredientInRecipie",
+      "field": "ingredientId",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "IngredientInRecipie",
+      "field": "ingredient",
+      "type": "Ingredient",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "IngredientInRecipie",
+          "field": "ingredient"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "IngredientInRecipie",
+          "field": "ingredient"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[ingredientId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "IngredientInRecipie",
+          "field": "ingredient"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "IngredientInRecipie",
+      "field": "createdAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "IngredientInRecipie",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "IngredientInRecipie",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "IngredientInRecipie"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Model",
+          "model": "IngredientInRecipie"
+        },
+        "directive": "id"
+      },
+      "argument": "",
+      "value": "[recipieId, ingredientId]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Recipie",
+      "field": "ingredients",
+      "type": "IngredientInRecipie",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Ingredient",
+      "field": "recipies",
+      "type": "IngredientInRecipie",
+      "arity": "List"
+    }
+  ]
+}

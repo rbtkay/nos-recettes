@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -14,22 +14,11 @@ model Recipie {
   id Int @id @default(autoincrement())
   title String?
   description Json?
-  ingredients IngredientInRecipie[]
   createdAt DateTime @default(now())
 }
 
 model Ingredient {
   id Int @id @default(autoincrement())
   name String @unique
-  recipies IngredientInRecipie[] 
-}
-
-model IngredientInRecipie {
-  recipieId Int 
-  recipie Recipie @relation(fields: [recipieId], references: [id])
-  ingredientId Int
-  ingredient Ingredient @relation(fields: [ingredientId], references: [id])
-  createdAt DateTime @default(now())
-
-  @@id([recipieId, ingredientId])
+  recipies Recipie[] @relation()
 }

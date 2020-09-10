@@ -3,3 +3,7 @@
 20200815003833-recipie-created
 20200824023602-ingredient-creation
 20200907122108-ingredient_name_unique
+20200909155912-one-to-many-relation-recipie-ingredient
+20200909161826-fix-in-one-to-many-relation
+20200909173905-remove-relation
+20200909182005-try-explicite-relationships

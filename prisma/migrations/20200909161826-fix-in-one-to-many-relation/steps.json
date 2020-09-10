@@ -1,0 +1,28 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "DeleteField",
+      "model": "Recipie",
+      "field": "ingredients"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Ingredient",
+      "field": "recipies",
+      "type": "Recipie",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Ingredient",
+          "field": "recipies"
+        },
+        "directive": "relation"
+      }
+    }
+  ]
+}
