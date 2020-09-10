@@ -25,6 +25,7 @@ export const addChosenIngredient = chosen_ingredient => ({
 	type: ADD_CHOSEN_INGREDIENT,
 	chosen_ingredient,
 });
+
 export const getChosenIngredients = () => ({
 	type: GET_CHOSEN_INGREDIENTS_AS_LIST_OF_IDS,
 });

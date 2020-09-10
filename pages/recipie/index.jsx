@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import Recette from "../../components/Recette";
 import NavigationBar from "../../components/NavigationBar";
+import Message from "../../components/Message";
 
 import { PrismaClient } from "@prisma/client";
 
@@ -84,6 +85,7 @@ export async function getServerSideProps({ res }) {
       title: recipie.title,
       description: recipie.description,
       createdAt: recipie.createdAt.toJSON(),
+      // ingredients: recipie.ingredientId
     };
   });
 

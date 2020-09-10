@@ -7,17 +7,16 @@ export default async function (req, res) {
         case "POST": {
             const { body } = req;
 
-            console.log("Body", body);
+            const { ingredient } = JSON.parse(body);
 
             const prisma = new PrismaClient();
             try {
-                const ingredient = await prisma.ingredient.create({
-                    data: JSON.parse(body),
+                const new_ingredient = await prisma.ingredient.create({
+                    data: { name: ingredient},
                 });
-                res.json(ingredient);
+                res.status(200).json(new_ingredient);
             } catch (error) {
-              console.log(error);
-                res.json({ error: true });
+                res.status(409).json({ error });
             } finally {
                 await prisma.$disconnect();
             }

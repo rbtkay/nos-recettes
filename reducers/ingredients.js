@@ -15,10 +15,9 @@ const ingredients = (state = [], action) => {
             return newState;
         case ADD_INGREDIENT:
 			console.log("ADDING");
-			// the new ingredient's id is the last id in database plus one
             const newIngredient = {
-                id: state[state.length - 1].id + 1,
-                name: action.ingredient,
+                id: action.ingredient.id,
+                name: action.ingredient.name,
             };
             newState = [...state, newIngredient];
             return newState;

@@ -6,6 +6,7 @@ import { Button } from "react-bootstrap";
 import RecetteForm from "../../components/RecetteForm";
 import NavigationBar from "../../components/NavigationBar";
 import CustomModal from "../../components/CustomModal";
+import Message from "../../components/Message";
 
 import { PrismaClient } from "@prisma/client";
 import RecetteFormContainer from "../../containers/RecetteFormContainer";
@@ -14,14 +15,12 @@ import { connect } from "react-redux";
 
 const RecetteCreatePage = ({ db_ingredients, setIngredients }) => {
     console.log("ingredients", db_ingredients);
-    const [stepCount, setStepCount] = useState(1);
-    const router = useRouter();
 
-    // setIngredients(db_ingredients);
+    setIngredients(db_ingredients);
 
-    useEffect(()=>{
-        setIngredients(db_ingredients);
-    })
+    // useEffect(()=>{
+    //     setIngredients(db_ingredients);
+    // })
 
     // const addRecipie = async (formResult) => {
     //     console.log(formResult);
@@ -42,6 +41,7 @@ const RecetteCreatePage = ({ db_ingredients, setIngredients }) => {
     return (
         <>
             <NavigationBar />
+            <Message />
             <div className="container">
                 <main>
                     <h1 className="title">Creez votre recette !</h1>
@@ -52,7 +52,7 @@ const RecetteCreatePage = ({ db_ingredients, setIngredients }) => {
                         addRecipie={addRecipie}
                         ingredients={ingredients}
                     /> */}
-                    <CustomModal/>
+                    <CustomModal />
                 </main>
             </div>
         </>
