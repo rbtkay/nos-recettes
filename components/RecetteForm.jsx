@@ -14,22 +14,22 @@ import {
 import { useState } from "react";
 import AutoCompleteDropdown from "./AutoCompleteDropdown";
 import AutoCompleteDropDownContainer from "../containers/AutoCompleteDropDownContainer";
+import { useEffect } from "react";
 
 const RecetteForm = ({
-    addRecipie,
+    addRecipieToDatabase,
     ingredients,
     chosen_ingredients,
     removeChosenIngredient,
     getChosenIngredients,
-    show
+    show,
 }) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState({});
     const [stepCount, setStepCount] = useState(1);
     const [newIngredient, setNewIngredient] = useState({ name: "" });
 
-
-console.log("SHOW",show);
+    console.log("SHOW", show);
 
     const addStep = () => {
         setStepCount(stepCount + 1);
@@ -97,9 +97,14 @@ console.log("SHOW",show);
     }
 
     const validate = async () => {
-        const recipie = { title, description };
-        console.log("chosen ingredients", getChosenIngredients());
+        const recipie = { title, description, ingredients: chosen_ingredients };
+        console.log("chosen function", recipie);
+        addRecipieToDatabase(recipie);
     };
+
+    useEffect(() => {
+        console.log("UseEffect", chosen_ingredients);
+    }, [chosen_ingredients]);
 
     const addIngredientToDatabase = async () => {
         const param = {
@@ -113,7 +118,6 @@ console.log("SHOW",show);
         const response = await fetch(`/api/ingredient`, param);
         if (response.status == 200) {
             const new_ingredient = await response.json();
-            // TODO: ingredient need to be added to the list to chose from.
         }
     };
 

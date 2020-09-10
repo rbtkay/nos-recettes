@@ -3,14 +3,37 @@ import { connect } from "react-redux";
 import { hideModal } from "../actions/modal";
 import { useState } from "react";
 import { addIngredient } from "../actions/ingredients";
+import { setMessage, messageTypes } from "../actions/message";
 
-const CustomModal = ({ isModalShow, hideModal, addIngredient }) => {
+const CustomModal = ({
+    isModalShow,
+    hideModal,
+    addIngredient,
+    addIngredientToDatabase,
+    setMessage,
+}) => {
     // the new ingredient that is going to be added
     const [ingredient, setIngredient] = useState("");
 
     const press = () => {
-        addIngredient(ingredient);
-        hideModal();
+        addIngredientToDatabase(ingredient)
+            .then((new_ingredient) => {
+                // if the the ingredient is correctly inserted
+                if (new_ingredient) {
+                    // add ingredient to store to update the list of available ingredients
+                    addIngredient(new_ingredient);
+
+                    // set the user's message
+                    setMessage(messageTypes.success_ingredient);
+
+                } else setMessage(messageTypes.error_ingredient);
+
+                // close the modal
+                hideModal();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     return (
@@ -44,12 +67,18 @@ const CustomModal = ({ isModalShow, hideModal, addIngredient }) => {
     );
 };
 
+import { addIngredientToDatabase } from "../fetchers/recipiesFetcher";
+
 const mapStateToProps = (state) => ({
     isModalShow: state.isModalShow,
 });
 const mapDispatchToProps = (dispatch) => ({
     hideModal: () => dispatch(hideModal()),
     showModal: () => dispatch(showModal()),
-    addIngredient: (ingredient) => dispatch(addIngredient(ingredient))
+    addIngredient: (ingredient) => dispatch(addIngredient(ingredient)),
+    addIngredientToDatabase: (ingredient) =>
+        addIngredientToDatabase(ingredient),
+    setMessage: (message) => dispatch(setMessage(message)),
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(CustomModal);
