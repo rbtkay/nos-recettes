@@ -1,4 +1,4 @@
-const addRecipie = async (dispatch, formResult) => {
+const addRecipieToDatabase = async (dispatch, formResult) => {
     const param = {
         method: "POST",
         header: {
@@ -43,4 +43,4 @@ const addIngredientToDatabase = async (newIngredient) => {
         return null;
     }
 };
-module.exports = { addRecipie, addIngredientToDatabase };
+module.exports = { addRecipieToDatabase, addIngredientToDatabase };

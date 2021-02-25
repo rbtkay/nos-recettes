@@ -12,7 +12,7 @@ const RecettePage = (props) => {
     // if the description is not set
     if (!description) {
         // set a default value
-        description = {"step-1":"Pas de recette pour le moment"};
+        description = { "step-1": "Pas de recette pour le moment" };
         isDefault = true; // used to facilitate the mapping, could be improved
     }
 
@@ -31,61 +31,26 @@ const RecettePage = (props) => {
             <div className="container">
                 <main>
                     <h1 className="title">{title}</h1>
-                    <div className="grid"></div>
+                    {descUI}
                 </main>
-                {descUI}
                 <footer>
-                    {/* <a
-                        href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Powered by{" "}
-                        <img
-                            src="/vercel.svg"
-                            alt="Vercel Logo"
-                            className="logo"
-                        />
-                    </a> */}
                 </footer>
             </div>
         </>
     );
 };
 
-// const Recipies = require("../../lib/Recipies");
-
 export async function getServerSideProps({ res, params }) {
-    // get the id from parameter
     const { id } = params;
-
-    console.log("id", id[0]);
-    console.log("type", typeof id);
-
     const prisma = new PrismaClient();
-
     const recipie = await prisma.recipie.findOne({
         where: {
             id: parseInt(id[0]),
         },
     });
 
-    // recipie.createdAt = recipie.createdAt.toJSON();
-
     prisma.$disconnect();
-    // const recipie = result.map((recipie) => {
-    //     return {
-    //       id: recipie.id,
-    //       title: recipie.title,
-    //       description: recipie.description,
-    //       createdAt: recipie.createdAt.toJSON(),
-    //     };
-    //   });
 
-    // get a recipie by its id
-    // const result = await Recipies.findById(id);
-    // console.log(result);
-    // const recipie = JSON.parse(result);
     const { title, description } = recipie;
     return { props: { id, title, description } };
 }

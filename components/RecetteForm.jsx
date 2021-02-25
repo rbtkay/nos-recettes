@@ -18,18 +18,13 @@ import { useEffect } from "react";
 
 const RecetteForm = ({
     addRecipieToDatabase,
-    ingredients,
     chosen_ingredients,
     removeChosenIngredient,
-    getChosenIngredients,
     show,
 }) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState({});
     const [stepCount, setStepCount] = useState(1);
-    const [newIngredient, setNewIngredient] = useState({ name: "" });
-
-    console.log("SHOW", show);
 
     const addStep = () => {
         setStepCount(stepCount + 1);
@@ -106,20 +101,20 @@ const RecetteForm = ({
         console.log("UseEffect", chosen_ingredients);
     }, [chosen_ingredients]);
 
-    const addIngredientToDatabase = async () => {
-        const param = {
-            method: "POST",
-            header: {
-                Accept: "application/json",
-                "Content-TYpe": "application/json",
-            },
-            body: JSON.stringify(newIngredient),
-        };
-        const response = await fetch(`/api/ingredient`, param);
-        if (response.status == 200) {
-            const new_ingredient = await response.json();
-        }
-    };
+    // const addIngredientToDatabase = async () => {
+    //     const param = {
+    //         method: "POST",
+    //         header: {
+    //             Accept: "application/json",
+    //             "Content-TYpe": "application/json",
+    //         },
+    //         body: JSON.stringify(newIngredient),
+    //     };
+    //     const response = await fetch(`/api/ingredient`, param);
+    //     if (response.status == 200) {
+    //         const new_ingredient = await response.json();
+    //     }
+    // };
 
     return (
         <>

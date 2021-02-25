@@ -5,7 +5,7 @@ import {
     removeChosenIngredient,
     getChosenIngredients,
 } from "../actions/ingredients";
-import { addRecipie } from "../fetchers/recipiesFetcher";
+import { addRecipieToDatabase } from "../fetchers/recipiesFetcher";
 
 const mapStateToProps = (state) => ({
     ingredients: state.ingredients,
@@ -15,8 +15,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     setIngredients: (ingredients) => dispatch(setIngredients(ingredients)),
     removeChosenIngredient: (id) => dispatch(removeChosenIngredient(id)),
-    addRecipie: (formResult) =>
-        addRecipie(dispatch, formResult),
+    addRecipieToDatabase: (formResult) =>
+        addRecipieToDatabase(dispatch, formResult),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecetteForm);

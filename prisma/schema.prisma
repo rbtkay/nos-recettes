@@ -8,6 +8,7 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["connectOrCreate"]
 }
 
 model Recipie {
@@ -29,6 +30,8 @@ model IngredientInRecipie {
   recipie Recipie @relation(fields: [recipieId], references: [id])
   ingredientId Int
   ingredient Ingredient @relation(fields: [ingredientId], references: [id])
+  quantity String?
+  unit String?
   createdAt DateTime @default(now())
 
   @@id([recipieId, ingredientId])

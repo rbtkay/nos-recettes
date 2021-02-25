@@ -4,64 +4,31 @@ import create from "../recipie/create";
 
 export default async function (req, res) {
     const { method } = req;
-
-    console.log(req);
     const prisma = new PrismaClient();
 
     switch (method) {
         case "POST":
             const { body } = req;
-
-            console.log("body:", JSON.parse(body));
+            
             let { title, description, ingredients } = JSON.parse(body);
-            ingredients = ingredients.map((ing) => ing.id);
 
-            console.log("title", title);
-            console.log("description", description);
-            console.log("ingredients", ingredients);
-
-            const sql_query = `insert into "Recipie" ("title", "description") values('test2', '{"step-one": "description testing"}');`;
-            // const recipie = await prisma.$executeRaw(sql_query);
-            const recipie = await prisma.ingredientInRecipie.create({
-                data: {
-                    recipie: {
-                        create: {
-                            title: "testings",
-                            description: { stepone: "tesintg" },
-                        },
+            ingredients = ingredients.map((ingredient) => ({
+                ingredient: {
+                    connect: {
+                        id: ingredient.id,
                     },
-                    ingredient: {
-                        connect: {
-                            id: 1,
-                        },
+                },
+            }));
+
+            const recipie = await prisma.recipie.create({
+                data: {
+                    title: title,
+                    description: description,
+                    ingredients: {
+                        create: ingredients,
                     },
                 },
             });
-            // recipie.create({
-            //     data: {
-            //         title,
-            //         description,
-            //         ingredients: {
-            //             create: [
-            //                 {
-            //                     ingredient: { connect: { ingredientId: 1 } },
-            //                 },
-            //                 {
-            //                     recipieId_ingredientId: {
-            //                         recipieId: 2,
-            //                         ingredientId: 2,
-            //                     },
-            //                 },
-            //                 {
-            //                     recipieId_ingredientId: {
-            //                         recipieId: 3,
-            //                         ingredientId: 3,
-            //                     },
-            //                 },
-            //             ],
-            //         },
-            //     },
-            // });
 
             await prisma.$disconnect();
 

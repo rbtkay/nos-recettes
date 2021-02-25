@@ -4,11 +4,10 @@ const Recette = (props) => {
     const { recette } = props;
     const { id, title } = recette;
 
-    console.log("ID", id);
     return (
         <>
-            <Link href="/recette/[id]" as={`/recette/${id}`}>
-                <a href="https://nextjs.org/learn" className="card">
+            <Link href="/recipie/[id]" as={`/recipie/${id}`}>
+                <a href="" className="card">
                     <h3>{title} &rarr;</h3>
                     <p>une recette a decouvrir</p>
                 </a>
